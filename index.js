@@ -18,27 +18,23 @@ var missionleader;
 var selections = [];
 var round;
 var people_per_round = [2, 3, 3, 2, 3];
+var mission_approves = 0;
+var mission_rejects = 0;
 
 io.on('connection', function(socket){
   console.log('a user connected');
 
   socket.on('disconnect', function(){
     console.log('user disconnected');
-  });
+      });
 
   socket.on('set username', function(name){
     console.log('user added: ' + name);
     clients[name] = socket;
     usernames.push(name);
     io.emit('new user', name);
-<<<<<<< HEAD
     if (tryStartingGame()) {
-      assignTeams();
-=======
-    if (tryStartingGame())
->>>>>>> 18876faf9727d56a4f46bde5ea5db47d5cf024e0
-    	//function to proceed the game, maybe make some function like "main"
-      for (int i=0; i<usernames.length; i++) {
+      for (var i=0; i<usernames.length; i++) {
         if(usernames[i].localeCompare(spies[0]) == 0 || usernames[i].localeCompare(spies[1]) == 0) { // is a spy
           socket.emit('team assignment', 'spy');
           socket.emit('other spies', "" + spies[0] + " " + spies[1]);
@@ -49,22 +45,49 @@ io.on('connection', function(socket){
       io.emit('start game', "");
       missionleader = getRandomInt(0,5);
       io.emit('missionleader', usernames[missionleader]); // send mission leader
-
     }
-  });
+      });
 
   socket.on('select player', function(select_player) {
-    selections = selections.push(select_player);
-  });
-  socket.on('deselect player', function(deselect_player) {
-    for(int i=0; i<selections.length; i++) {
-      if(selections[i].localeCompare == 0) {
-        
-      }
-    }
-  });
+	  selections = selections.push(select_player);
+	  io.emit('select player', select_player);
+      });
 
-});
+  socket.on('deselect player', function(deselect_player) {
+	  for(var i=0; i<selections.length; i++) {
+	      if(selections[i].localeCompare == 0) {
+		  selections.splice(i, 1);
+	      }
+	  }
+	  io.emit('deselect player', deselect_player);
+      });
+
+  socket.on('lock selections', function(){
+	  io.emit('lock selections');
+      });
+
+  socket.on('mission approve', function(){
+	  mission_approves += 1;
+	  if(mission_approves == 3){
+	      io.emit('majority approve');
+	      mission_approves = 0;
+	  }
+	  else {
+	      io.emit('mission approve');
+	  }
+      });
+
+  socket.on('misson reject', function(){
+	  mission_approves += 1;
+	  if(mission_approves == 3){
+	      io.emit('majority reject');
+	      mission_reject = 0;
+	  }
+	  else {
+	      io.emit('mission reject');
+	  }
+      });
+    });
 
 http.listen(3000, function(){
   console.log('listening on *:3000');
@@ -79,8 +102,8 @@ function tryStartingGame() {
 }
 
 function assignTeams() {
-	int spyIndex1 = getRandomInt(0,5);
-	int spyIndex2 = getRandomInt(0,5);
+	var spyIndex1 = getRandomInt(0,5);
+	var spyIndex2 = getRandomInt(0,5);
 	while(spyIndex1 == spyIndex2)
 		spyIndex2 = getRandomInt(0,5);
 
