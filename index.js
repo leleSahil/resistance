@@ -76,18 +76,18 @@ io.on('connection', function(socket){
 	  io.emit('lock selections');
       });
 
-  socket.on('mission approve', function(){
+  socket.on('mission approve', function(username){
 	  mission_approves += 1;
 	  if(mission_approves == 3){
 	      io.emit('majority approve');
 	      mission_approves = 0;
 	  }
 	  else {
-	      io.emit('mission approve');
+	      io.emit('mission approve', username);
 	  }
       });
 
-  socket.on('misson reject', function(){
+  socket.on('misson reject', function(username){
 	  mission_rejects += 1;
 	  if(mission_rejects == 3){
 	      io.emit('majority reject');
@@ -95,10 +95,10 @@ io.on('connection', function(socket){
 	      updateMissionLeader();
 	  }
 	  else {
-	      io.emit('mission reject');
+	      io.emit('mission reject', username);
 	  }
       });
-    });
+
 
   socket.on('mission succeed', function(){
     num_votes += 1;
@@ -109,6 +109,7 @@ io.on('connection', function(socket){
     num_votes += 1;
     mission_succeed = false;
   });
+});
 
 http.listen(3000, function(){
   console.log('listening on *:3000');
