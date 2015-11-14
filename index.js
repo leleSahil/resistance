@@ -13,6 +13,7 @@ var spyScore   = 0;
 
 var clients = {};
 var usernames = [];
+var spies = [];
 
 
 io.on('connection', function(socket){
@@ -28,7 +29,7 @@ io.on('connection', function(socket){
     usernames.push(msg);
     io.emit('new user', msg);
     if (tryStartingGame())
-    	//function to proceed the game
+    	//function to proceed the game, maybe make some function like "main"
 
   });
 
@@ -44,4 +45,20 @@ function tryStartingGame() {
 		return true;
 	else
 		return false;
+}
+
+function assignTeams() {
+	int spyIndex1 = getRandomInt(0,5);
+	int spyIndex2 = getRandomInt(0,5);
+	while(spyIndex1 == spyIndex2)
+		spyIndex2 = getRandomInt(0,5);
+
+	spies.push(usernames[spyIndex1]);
+	spies.push(usernames[spyIndex2]);
+}
+
+// Returns a random integer between min (included) and max (excluded)
+// Using Math.round() will give you a non-uniform distribution!
+function getRandomInt(min, max) {
+	return Math.floor(Math.random() * (max - min)) + min;
 }
