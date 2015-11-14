@@ -89,6 +89,8 @@ io.on('connection', function(socket){
 	  if(mission_approves == 3){
 	      io.emit('majority reject');
 	      mission_reject = 0;
+	      updateMissionLeader();
+	      io.emit('missionleader', usernames[missionleader]); // send mission leader
 	  }
 	  else {
 	      io.emit('mission reject');
@@ -122,4 +124,11 @@ function assignTeams() {
 // Using Math.round() will give you a non-uniform distribution!
 function getRandomInt(min, max) {
 	return Math.floor(Math.random() * (max - min)) + min;
+}
+
+function updateMissionLeader(){
+    missionLeader += 1;
+    if(missionLeader = 5){
+	missionLeader = 0;
+    }
 }
