@@ -14,7 +14,10 @@ var spyScore   = 0;
 var clients = {};
 var usernames = [];
 var spies = [];
-
+var missionleader;
+var selections = [];
+var round;
+var people_per_round = [2, 3, 3, 2, 3];
 
 io.on('connection', function(socket){
   console.log('a user connected');
@@ -23,14 +26,38 @@ io.on('connection', function(socket){
     console.log('user disconnected');
   });
 
-  socket.on('set username', function(msg){
-    console.log('user added: ' + msg);
-    clients[msg] = socket;
-    usernames.push(msg);
-    io.emit('new user', msg);
-    if (tryStartingGame())
+  socket.on('set username', function(name){
+    console.log('user added: ' + name);
+    clients[name] = socket;
+    usernames.push(name);
+    io.emit('new user', name);
+    if (tryStartingGame()) {
+      assignTeams();
     	//function to proceed the game, maybe make some function like "main"
+      for (int i=0; i<usernames.length; i++) {
+        if(usernames[i].localeCompare(spies[0]) == 0 || usernames[i].localeCompare(spies[1]) == 0) { // is a spy
+          socket.emit('team assignment', 'spy');
+          socket.emit('other spies', "" + spies[0] + " " + spies[1]);
+        } else {
+          socket.emit('team assignment', 'resistance');
+        }
+      }
+      io.emit('start game', "");
+      missionleader = getRandomInt(0,5);
+      io.emit('missionleader', usernames[missionleader]); // send mission leader
 
+    }
+  });
+
+  socket.on('select player', function(select_player) {
+    selections = selections.push(select_player);
+  });
+  socket.on('deselect player', function(deselect_player) {
+    for(int i=0; i<selections.length; i++) {
+      if(selections[i].localeCompare == 0) {
+        
+      }
+    }
   });
 
 });
