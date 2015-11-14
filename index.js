@@ -2,9 +2,7 @@ var app = require('express')();
 var express = require('express');
 var path = require('path');
 
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.bodyParser());
-app.use(express.logger("short"));
+app.use(express.static(path.join(__dirname, '.')));
 
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
@@ -44,7 +42,7 @@ io.on('connection', function(socket){
     if (tryStartingGame()) {
       assignTeams();
     	//function to proceed the game, maybe make some function like "main"
-      for (int i=0; i<usernames.length; i++) {
+      for (var i=0; i<usernames.length; i++) {
         if(usernames[i].localeCompare(spies[0]) == 0 || usernames[i].localeCompare(spies[1]) == 0) { // is a spy
           socket.emit('team assignment', 'spy');
           socket.emit('other spies', "" + spies[0] + " " + spies[1]);
