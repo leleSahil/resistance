@@ -24,6 +24,8 @@ var round;
 var people_per_round = [2, 3, 3, 2, 3];
 var mission_approves = 0;
 var mission_rejects = 0;
+var mission_succeed = true;
+var num_votes = 0;
 
 io.on('connection', function(socket){
   console.log('a user connected');
@@ -40,6 +42,7 @@ io.on('connection', function(socket){
 
     if (tryStartingGame()) {
       assignTeams();
+      round = 0;
     	//function to proceed the game, maybe make some function like "main"
       for (var i=0; i<usernames.length; i++) {
         if(usernames[i].localeCompare(spies[0]) == 0 || usernames[i].localeCompare(spies[1]) == 0) { // is a spy
@@ -85,18 +88,27 @@ io.on('connection', function(socket){
       });
 
   socket.on('misson reject', function(){
-	  mission_approves += 1;
-	  if(mission_approves == 3){
+	  mission_rejects += 1;
+	  if(mission_rejects == 3){
 	      io.emit('majority reject');
-	      mission_reject = 0;
+	      mission_rejects = 0;
 	      updateMissionLeader();
-	      io.emit('missionleader', usernames[missionleader]); // send mission leader
 	  }
 	  else {
 	      io.emit('mission reject');
 	  }
       });
     });
+
+  socket.on('mission succeed', function(){
+    num_votes += 1;
+    tryCompleteMission();
+  });
+
+  socket.on('mission fail', function(){
+    num_votes += 1;
+    mission_succeed = false;
+  });
 
 http.listen(3000, function(){
   console.log('listening on *:3000');
@@ -129,6 +141,32 @@ function getRandomInt(min, max) {
 function updateMissionLeader(){
     missionLeader += 1;
     if(missionLeader = 5){
-	missionLeader = 0;
+	   missionLeader = 0;
     }
+    io.emit('missionleader', usernames[missionleader]); // send mission leader
+}
+
+function tryCompleteMission(){
+  if(num_votes == people_per_round[round]){
+    if(mission_succeed){
+      io.emit('mission succeeded');
+      round += 1;
+      rebelScore +=1;
+    }
+    else{
+      io.emit('mission failed');
+      spyScore += 1;
+    }
+
+    if(rebelScore == 3){
+      io.emit('rebels win');
+      //emit rebel and spy names
+    }
+    else if(spyScore == 3){
+      io.emit('spies win');
+    }
+    else{
+      updateMissionLeader();
+    }
+  } 
 }
