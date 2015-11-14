@@ -1,9 +1,16 @@
 var app = require('express')();
+var express = require('express');
+var path = require('path');
+
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.bodyParser());
+app.use(express.logger("short"));
+
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
 app.get('/', function(req, res){
-  res.sendFile('index.html');
+  res.sendFile(__dirname + '/index.html');
 });
 
 
@@ -23,13 +30,14 @@ io.on('connection', function(socket){
     console.log('user disconnected');
   });
 
-  socket.on('set username', function(name){
+  socket.on('set username', function(name) {
     console.log('user added: ' + name);
     clients[name] = socket;
     usernames.push(name);
     io.emit('new user', name);
-    if (tryStartingGame())
+    if (tryStartingGame()) {}
     	//function to proceed the game, maybe make some function like "main"
+    
 
   });
 
@@ -48,8 +56,8 @@ function tryStartingGame() {
 }
 
 function assignTeams() {
-	int spyIndex1 = getRandomInt(0,5);
-	int spyIndex2 = getRandomInt(0,5);
+	var spyIndex1 = getRandomInt(0,5);
+	var spyIndex2 = getRandomInt(0,5);
 	while(spyIndex1 == spyIndex2)
 		spyIndex2 = getRandomInt(0,5);
 
