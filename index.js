@@ -23,11 +23,11 @@ io.on('connection', function(socket){
     console.log('user disconnected');
   });
 
-  socket.on('set username', function(msg){
-    console.log('user added: ' + msg);
-    clients[msg] = socket;
-    usernames.push(msg);
-    io.emit('new user', msg);
+  socket.on('set username', function(name){
+    console.log('user added: ' + name);
+    clients[name] = socket;
+    usernames.push(name);
+    io.emit('new user', name);
     if (tryStartingGame())
     	//function to proceed the game, maybe make some function like "main"
 
