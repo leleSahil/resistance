@@ -56,21 +56,9 @@ io.on('connection', function(socket){
       });
 
   socket.on('select player', function(select_player) {
-<<<<<<< HEAD
 	  selections = selections.push(select_player);
 	  io.emit('select player', select_player);
       });
-=======
-    selections = selections.push(select_player);
-  });
-  socket.on('deselect player', function(deselect_player) {
-    for(var i=0; i<selections.length; i++) {
-      if(selections[i].localeCompare == 0) {
-        
-      }
-    }
-  });
->>>>>>> c34e97b94200f4664bce424c4c03aed400bd3344
 
   socket.on('deselect player', function(deselect_player) {
 	  for(var i=0; i<selections.length; i++) {
