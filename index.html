@@ -9,6 +9,8 @@
     </head>
     <body>
         <div class="container">
+
+
             <div class="top-bar">
                 <div id="one" class="round rebels-won">
                     <h4 id="one-text" class="numplayers">2</h4>
@@ -121,5 +123,32 @@
             </div>
 
         </div>
+
+        <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+        <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+        <script>
+            var socket = io();
+            $('form').submit(function(){
+            socket.emit('chat message', $('#m').val());
+            $('#m').val('');
+            return false;
+            });
+
+            $(document).ready( function() {
+
+            $("#viewclick").click( function() {
+            // this will fire when you click view
+            });
+            $("#editclick").click( function() {
+            // this will fire when you click edit
+            // hide the view button here and upon submit, show it again
+            // like $("#viewclick").hide() or $("#viewclick").fadeOut()
+            });
+
+        });
+        </script>
+
+
+
     </body>
 </html>
