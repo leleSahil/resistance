@@ -11,7 +11,7 @@ body {
 .top-bar {
     height: 15vw;
     background-color: #2d2a2c;
-    padding-top: 4vw;
+    padding-top: 3vw;
 }
 
 .round {
@@ -221,6 +221,97 @@ body {
     padding-top: 3.5vw;
     font-weight: bold;
     color: #F7B538;
+}
+
+.played-cards-two {
+    margin-top: 40vw;
+}
+
+.played-card-icon-two {
+    width: 25vw;
+    height: 28vw;
+    border-radius: 5%;
+    margin-left: 15.25vw;
+    border-style: solid;
+    border-width: 1vw;
+    border-color: white;
+    color: white;
+    text-align: center;
+    padding-top: 12vw;
+    font-size: 15vw;
+    display: inline-block;
+    background-color: #2d2a2c;
+}
+
+.played-cards-three {
+    margin-top: 40vw;
+}
+
+.played-card-icon-three {
+    width: 25vw;
+    height: 28vw;
+    border-radius: 5%;
+    margin-left: 4.33vw;
+    border-style: solid;
+    border-width: 1vw;
+    border-color: white;
+    color: white;
+    text-align: center;
+    padding-top: 12vw;
+    font-size: 15vw;
+    display: inline-block;
+    background-color: #2d2a2c;
+}
+
+.success-card {
+    background-color: #2d7dd2;
+    border-color: #77b4f5;
+    color: #003166;
+}
+
+.fail-card {
+    background-color: #d70230;
+    border-color: #f77e98;
+    color: #690017;
+}
+
+.card-instruction {
+    color: white;
+    text-align: center;
+    margin-top: 25vw;
+    font-size: 5vw;
+}
+
+#success-button {
+    margin-top: 25vw;
+    padding-top: 5vw;
+    width: 40vw;
+    height: 12.5vw;
+    border-radius: 5%;
+    margin-left: 29vw;
+    border-style: solid;
+    border-width: 1vw;
+    font-size: 7.5vw;
+    background-color: #2d7dd2;
+    border-color: #77b4f5;
+    color: #003166;
+    text-align: center;
+}
+
+#fail-button {
+    margin-top: 5vw;
+    padding-top: 5vw;
+    width: 40vw;
+    height: 12.5vw;
+    border-radius: 5%;
+    margin-left: 29vw;
+    border-style: solid;
+    border-width: 1vw;
+    font-size: 7.5vw;
+    background-color: #d70230;
+    border-color: #f77e98;
+    color: #690017;
+    text-align: center;
 }
 
 .button-container {

@@ -53,14 +53,16 @@
                 </div>
             </div>
 
-            <div id="approve-deny-screen" class="">
+            <div id="approve-deny-screen" class="hidden">
                 <div class="info-pane">
                     <div class="selected-players-two hidden">
                         <div id="player-selected-one" class="player-selected-icon-two"></div>
                         <div id="player-selected-two" class="player-selected-icon-two"></div>
                     </div>
                     <div class="selected-players-three">
-                        <div id="player-selected-one" class="player-selected-icon-three"></div>
+                        <div id="player-selected-one" class="player-selected-icon-three">
+                            <span style="position:fixed">Grant</span>
+                        </div>
                         <div id="player-selected-two" class="player-selected-icon-three"></div>
                         <div id="player-selected-three" class="player-selected-icon-three"></div>
                     </div>
@@ -84,6 +86,35 @@
                     <div class="button-container">
                         <div id="approve-button">✓</div>
                         <div id="deny-button">×</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="success-fail-pending-screen" class="hidden">
+                <div class="info-pane">
+                    <div class="played-cards-two hidden">
+                        <div id="played-card-one" class="played-card-icon-two">?</div>
+                        <div id="played-card-two" class="played-card-icon-two">?</div>
+                    </div>
+                    <div class="played-cards-three">
+                        <div id="played-card-one" class="played-card-icon-three">?</div>
+                        <div id="played-card-two" class="played-card-icon-three">?</div>
+                        <div id="played-card-three" class="played-card-icon-three">?</div>
+                    </div>
+                    <div id="played-cards-instruction" class="card-instruction">
+                        Awaiting Mission Results
+                    </div>
+                </div>
+            </div>
+
+            <div id="success-fail-selection-screen" class="">
+                <div class="info-pane">
+                    <div id="play-cards-instruction" class="card-instruction">
+                        Select Mission Action
+                    </div>
+                    <div class="success-fail-selection">
+                        <div id="success-button">Success</div>
+                        <div id="fail-button" class="">Failure</div>
                     </div>
                 </div>
             </div>
