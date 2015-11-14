@@ -1,0 +1,331 @@
+body {
+    margin: 0;
+    background-color: #595457;
+    font-family: "Montserrat", sans-serif;
+}
+
+.container {
+    position: relative;
+}
+
+.top-bar {
+    height: 15vw;
+    background-color: #2d2a2c;
+    padding-top: 3vw;
+}
+
+.round {
+    border-radius: 50%;
+    background-color: #595457;
+    width: 10vw;
+    height: 10vw;
+    margin-left: 8vw;
+    display: inline-block;
+}
+
+.round > h4 {
+    margin-top: 2vw;
+}
+
+.active-round {
+    border-style: solid;
+    border-width: 1vw;
+    color: white;
+    margin-left: 6vw;
+}
+
+.spies-won {
+    background-color: #d70230;
+}
+
+.spies-won > h4 {
+    color: #690017;
+}
+
+.rebels-won {
+    background-color: #2d7dd2;
+}
+
+.rebels-won > h4 {
+    color: #003166;
+}
+
+.active-round > h4 {
+    color: white;
+}
+
+.numplayers {
+    padding-left: 3.5vw;
+    margin-top: 2.75vw;
+    font-size: 5vw;
+    color: #2d2a2c;
+}
+
+.info-pane {
+}
+
+.player-queue {
+    margin-top: 5vw;
+    margin-left: 38vw;
+}
+
+.player-queue-icon {
+    display: inline-block;
+    background-color: white;
+}
+
+#player-queue-one {
+    width: 25vw;
+    height: 25vw;
+}
+
+#player-queue-two {
+    width: 20vw;
+    height: 20vw;
+    margin-bottom: 2.5vw;
+    margin-left: -7.5vw;
+    opacity: .5;
+}
+
+
+#player-queue-three {
+    width: 15vw;
+    height: 15vw;
+    margin-bottom: 5vw;
+    margin-left: -5vw;
+    opacity: .25;
+}
+
+.player-instruction {
+    margin-top: 4.5vw;
+    color: white;
+    text-align: center;
+    font-size: 5vw;
+}
+
+.activity-pane {
+    background-color: #aca9ab;
+    height: 85vw;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+}
+
+.player-select-top {
+    opacity: 0.5;
+    margin-left: 9.5vw;
+    margin-top: 10vw;
+    width: 20vw;
+    height: 20vw;
+    display: inline-block;
+    background-color: white;
+}
+
+#bottom-player-selection {
+    padding-left: 25vw;
+}
+
+#player-select-five {
+    margin-left: 10vw;
+}
+
+.player-select-bottom {
+    opacity: 0.35;
+    margin-top: 10vw;
+    width: 20vw;
+    height: 20vw;
+    display: inline-block;
+    background-color: white;
+}
+
+.player-selected {
+    opacity: 1;
+}
+
+#confirm-player-select {
+    margin-top: 10vw;
+    color: white;
+    text-align: center;
+    font-size: 7vw;
+    font-weight: bold;
+}
+
+.selected-players-two {
+    margin-top: 5vw;
+}
+
+.player-selected-icon-two {
+    width: 25vw;
+    height: 25vw;
+    margin-left: 16vw;
+    display: inline-block;
+    background-color: white;
+}
+
+.selected-players-three {
+    margin-top: 5vw;
+}
+
+.player-selected-icon-three {
+    width: 25vw;
+    height: 25vw;
+    margin-left: 6vw;
+    display: inline-block;
+    background-color: white;
+}
+
+#approve-chart {
+    display: inline-block;
+    width: 50vw;
+    height: 80%;
+    background-color: #8FC93A;
+}
+
+.approved-denied-player {
+    text-align: center;
+    color: white;
+    margin-top: 11vw;
+    font-size: 3vw;
+}
+
+#deny-chart {
+    display: inline-block;
+    float: right;
+    width: 50vw;
+    height: 80%;
+    background-color: #F7B538;
+}
+
+.approve-deny {
+    color: white;
+    text-align: center;
+    margin-top: 6vw;
+    font-size: 5vw;
+}
+
+#approve-button {
+    display: inline-block;
+    text-align: center;
+    float: left;
+    width: 50vw;
+    font-size: 10vw;
+    padding-top: 1vw;
+    font-weight: bold;
+    color: #8FC93A;
+}
+
+#deny-button {
+    display: inline-block;
+    text-align: center;
+    float: right;
+    border-left-color: #595457;
+    width: 50vw;
+    font-size: 10vw;
+    padding-top: 3vw;
+    font-weight: bold;
+    color: #F7B538;
+}
+
+.played-cards-two {
+    margin-top: 35vw;
+}
+
+.played-card-icon-two {
+    width: 25vw;
+    height: 28vw;
+    border-radius: 5%;
+    margin-left: 15.25vw;
+    border-style: solid;
+    border-width: 1vw;
+    border-color: white;
+    color: white;
+    text-align: center;
+    padding-top: 10vw;
+    font-size: 15vw;
+    display: inline-block;
+    background-color: #2d2a2c;
+}
+
+.played-cards-three {
+    margin-top: 35vw;
+}
+
+.played-card-icon-three {
+    width: 25vw;
+    height: 28vw;
+    border-radius: 5%;
+    margin-left: 4.33vw;
+    border-style: solid;
+    border-width: 1vw;
+    border-color: white;
+    color: white;
+    text-align: center;
+    padding-top: 10vw;
+    font-size: 15vw;
+    display: inline-block;
+    background-color: #2d2a2c;
+}
+
+.success-card {
+    background-color: #2d7dd2;
+    border-color: #77b4f5;
+    color: #003166;
+}
+
+.fail-card {
+    background-color: #d70230;
+    border-color: #f77e98;
+    color: #690017;
+}
+
+.card-instruction {
+    color: white;
+    text-align: center;
+    margin-top: 25vw;
+    font-size: 5vw;
+}
+
+#success-button {
+    margin-top: 17.5vw;
+    padding-top: 3vw;
+    width: 40vw;
+    height: 12.5vw;
+    border-radius: 5%;
+    margin-left: 29vw;
+    border-style: solid;
+    border-width: 1vw;
+    font-size: 7.5vw;
+    background-color: #2d7dd2;
+    border-color: #77b4f5;
+    color: #003166;
+    text-align: center;
+}
+
+#fail-button {
+    margin-top: 5vw;
+    padding-top: 3vw;
+    width: 40vw;
+    height: 12.5vw;
+    border-radius: 5%;
+    margin-left: 29vw;
+    border-style: solid;
+    border-width: 1vw;
+    font-size: 7.5vw;
+    background-color: #d70230;
+    border-color: #f77e98;
+    color: #690017;
+    text-align: center;
+}
+
+.button-container {
+    background-color: #2d2a2c;
+    height: 100%;
+}
+
+.hidden {
+    display: none;
+}
+
+.hidden-mock {
+    opacity: .25;
+}

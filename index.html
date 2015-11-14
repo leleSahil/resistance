@@ -1,35 +1,125 @@
-<!doctype html>
+<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
-  <head>
-    <title>Socket.IO chat</title>
-    <style>
-      * { margin: 0; padding: 0; box-sizing: border-box; }
-      body { font: 13px Helvetica, Arial; }
-      form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
-      form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
-      form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
-      #messages { list-style-type: none; margin: 0; padding: 0; }
-      #messages li { padding: 5px 10px; }
-      #messages li:nth-child(odd) { background: #eee; }
-    </style>
-  </head>
-  <body>
-    <ul id="messages"></ul>
-    <form action="">
-      <input id="m" autocomplete="off" /><button>Send</button>
-    </form>
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
-    <script>
-      var socket = io();
-      $('form').submit(function(){
-        socket.emit('chat message', $('#m').val());
-        $('#m').val('');
-        return false;
-      });
-      socket.on('chat message', function(msg){
-        $('#messages').append($('<li>').text(msg));
-      });
-    </script>
-  </body>
+    <head>
+        <meta charset="utf-8">
+        <title>Resistance</title>
+        <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="/style.css">
+    </head>
+    <body>
+        <div class="container">
+            <div class="top-bar">
+                <div id="one" class="round rebels-won">
+                    <h4 id="one-text" class="numplayers">2</h4>
+                </div>
+                <div id="two" class="round spies-won">
+                    <h4 id="two-text" class="numplayers">3</h4>
+                </div>
+                <div id="three" class="round active-round">
+                    <h4 id="three-text" class="numplayers">3</h4>
+                </div>
+                <div id="four" class="round">
+                    <h4 id="four-text" class="numplayers">2</h4>
+                </div>
+                <div id="five" class="round">
+                    <h4 id="five-text" class="numplayers">3</h4>
+                </div>
+            </div>
+
+            <div id="player-select" class="hidden">
+                <div class="info-pane">
+                    <div class="player-queue">
+                        <div id="player-queue-one" class="player-queue-icon"></div>
+                        <div id="player-queue-two" class="player-queue-icon"></div>
+                        <div id="player-queue-three" class="player-queue-icon"></div>
+                    </div>
+                    <div id="player-queue-instruction" class="player-instruction">
+                        <b>Name</b>, Select <b>#</b> Participants
+                    </div>
+                </div>
+                <div class="activity-pane">
+                    <div id="top-player-selection">
+                        <div id="player-select-one" class="player-select-top player-selected"></div>
+                        <div id="player-select-two" class="player-select-top"></div>
+                        <div id="player-select-three" class="player-select-top"></div>
+                    </div>
+                    <div id="bottom-player-selection">
+                        <div id="player-select-four" class="player-select-bottom"></div>
+                        <div id="player-select-five" class="player-select-bottom"></div>
+                    </div>
+                    <div id="confirm-player-select" class="hidden-mock">
+                        Confirm
+                    </div>
+                </div>
+            </div>
+
+            <div id="approve-deny-screen" class="hidden">
+                <div class="info-pane">
+                    <div class="selected-players-two hidden">
+                        <div id="player-selected-one" class="player-selected-icon-two"></div>
+                        <div id="player-selected-two" class="player-selected-icon-two"></div>
+                    </div>
+                    <div class="selected-players-three">
+                        <div id="player-selected-one" class="player-selected-icon-three">
+                            <span style="position:fixed">Grant</span>
+                        </div>
+                        <div id="player-selected-two" class="player-selected-icon-three"></div>
+                        <div id="player-selected-three" class="player-selected-icon-three"></div>
+                    </div>
+                    <div id="player-queue-instruction" class="player-instruction">
+                        <b style="color:#8FC93A">Approve</b> or <b style="color:#F7B538">Deny</b> the Mission?
+                    </div>
+                </div>
+                <div class="activity-pane">
+                    <div id="approve-chart">
+                        <div class="approve-deny">Approved</div>
+                        <div id="approved-player-one" class="approved-denied-player">Name 1</div>
+                        <div id="approved-player-two" class="approved-denied-player">Name 2</div>
+                        <div id="approved-player-three" class="approved-denied-player"></div>
+                    </div>
+                    <div id="deny-chart">
+                        <div class="approve-deny">Denied</div>
+                        <div id="denied-player-one" class="approved-denied-player">Name 1</div>
+                        <div id="denied-player-two" class="approved-denied-player">Name 2</div>
+                        <div id="denied-player-three" class="approved-denied-player">Name 3</div>
+                    </div>
+                    <div class="button-container">
+                        <div id="approve-button">✓</div>
+                        <div id="deny-button">×</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="success-fail-pending-screen" class="hidden">
+                <div class="info-pane">
+                    <div class="played-cards-two hidden">
+                        <div id="played-card-one" class="played-card-icon-two">?</div>
+                        <div id="played-card-two" class="played-card-icon-two">?</div>
+                    </div>
+                    <div class="played-cards-three">
+                        <div id="played-card-one" class="played-card-icon-three">?</div>
+                        <div id="played-card-two" class="played-card-icon-three">?</div>
+                        <div id="played-card-three" class="played-card-icon-three">?</div>
+                    </div>
+                    <div id="played-cards-instruction" class="card-instruction">
+                        Awaiting Mission Results
+                    </div>
+                </div>
+            </div>
+
+            <div id="success-fail-selection-screen" class="">
+                <div class="info-pane">
+                    <div id="play-cards-instruction" class="card-instruction">
+                        Select Mission Action
+                    </div>
+                    <div class="success-fail-selection">
+                        <div id="success-button">Success</div>
+                        <div id="fail-button" class="">Failure</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </body>
 </html>

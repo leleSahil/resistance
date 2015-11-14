@@ -31,8 +31,12 @@ io.on('connection', function(socket){
     clients[name] = socket;
     usernames.push(name);
     io.emit('new user', name);
+<<<<<<< HEAD
     if (tryStartingGame()) {
       assignTeams();
+=======
+    if (tryStartingGame())
+>>>>>>> 18876faf9727d56a4f46bde5ea5db47d5cf024e0
     	//function to proceed the game, maybe make some function like "main"
       for (int i=0; i<usernames.length; i++) {
         if(usernames[i].localeCompare(spies[0]) == 0 || usernames[i].localeCompare(spies[1]) == 0) { // is a spy
