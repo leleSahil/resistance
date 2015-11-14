@@ -97,8 +97,8 @@ io.on('connection', function(socket){
 	  else {
 	      io.emit('mission reject');
 	  }
-      });
-    });
+  });
+    
 
   socket.on('mission succeed', function(){
     num_votes += 1;
@@ -109,6 +109,7 @@ io.on('connection', function(socket){
     num_votes += 1;
     mission_succeed = false;
   });
+});
 
 http.listen(3000, function(){
   console.log('listening on *:3000');
