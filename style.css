@@ -1,7 +1,7 @@
 body {
     margin: 0;
     background-color: #595457;
-    font-family: "Proxima Nova", sans-serif;
+    font-family: "Montserrat", sans-serif;
 }
 
 .container {
@@ -21,6 +21,10 @@ body {
     height: 10vw;
     margin-left: 8vw;
     display: inline-block;
+}
+
+.round > h4 {
+    margin-top: 2vw;
 }
 
 .active-round {
@@ -61,7 +65,7 @@ body {
 }
 
 .player-queue {
-    margin-top: 12.5vw;
+    margin-top: 5vw;
     margin-left: 38vw;
 }
 
@@ -93,7 +97,7 @@ body {
 }
 
 .player-instruction {
-    margin-top: 10vw;
+    margin-top: 4.5vw;
     color: white;
     text-align: center;
     font-size: 5vw;
@@ -147,7 +151,7 @@ body {
 }
 
 .selected-players-two {
-    margin-top: 12.5vw;
+    margin-top: 5vw;
 }
 
 .player-selected-icon-two {
@@ -159,7 +163,7 @@ body {
 }
 
 .selected-players-three {
-    margin-top: 12.5vw;
+    margin-top: 5vw;
 }
 
 .player-selected-icon-three {
@@ -181,6 +185,7 @@ body {
     text-align: center;
     color: white;
     margin-top: 11vw;
+    font-size: 3vw;
 }
 
 #deny-chart {
@@ -204,8 +209,7 @@ body {
     float: left;
     width: 50vw;
     font-size: 10vw;
-    margin-top: 1.5vw;
-    padding-top: 3.5vw;
+    padding-top: 1vw;
     font-weight: bold;
     color: #8FC93A;
 }
@@ -217,14 +221,13 @@ body {
     border-left-color: #595457;
     width: 50vw;
     font-size: 10vw;
-    margin-top: 1.5vw;
-    padding-top: 3.5vw;
+    padding-top: 3vw;
     font-weight: bold;
     color: #F7B538;
 }
 
 .played-cards-two {
-    margin-top: 40vw;
+    margin-top: 35vw;
 }
 
 .played-card-icon-two {
@@ -237,14 +240,14 @@ body {
     border-color: white;
     color: white;
     text-align: center;
-    padding-top: 12vw;
+    padding-top: 10vw;
     font-size: 15vw;
     display: inline-block;
     background-color: #2d2a2c;
 }
 
 .played-cards-three {
-    margin-top: 40vw;
+    margin-top: 35vw;
 }
 
 .played-card-icon-three {
@@ -257,7 +260,7 @@ body {
     border-color: white;
     color: white;
     text-align: center;
-    padding-top: 12vw;
+    padding-top: 10vw;
     font-size: 15vw;
     display: inline-block;
     background-color: #2d2a2c;
@@ -283,8 +286,8 @@ body {
 }
 
 #success-button {
-    margin-top: 25vw;
-    padding-top: 5vw;
+    margin-top: 17.5vw;
+    padding-top: 3vw;
     width: 40vw;
     height: 12.5vw;
     border-radius: 5%;
@@ -300,7 +303,7 @@ body {
 
 #fail-button {
     margin-top: 5vw;
-    padding-top: 5vw;
+    padding-top: 3vw;
     width: 40vw;
     height: 12.5vw;
     border-radius: 5%;
