@@ -6,6 +6,8 @@
         <title>Resistance</title>
         <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="/style.css">
+        <!-- <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css"> -->
+
     </head>
     <body>
         <div class="container">
@@ -188,31 +190,54 @@
 
         </div>
 
+        <!-- <script src="http://code.jquery.com/jquery-1.11.1.js"></script> -->
+        <!-- <script src="/socket.io/socket.io.js"></script> -->
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"> </script>
         <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
-        <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
         <script>
-            var socket = io();
-            $('form').submit(function(){
-            socket.emit('chat message', $('#m').val());
-            $('#m').val('');
-            return false;
-            });
+        var username; 
+        var socket = io();
 
-            $(document).ready( function() {
+        var users = []; //usernames
+        var user_included = [false, false, false, false, false];
 
-            $("#viewclick").click( function() {
-            // this will fire when you click view
-            });
-            $("#editclick").click( function() {
-            // this will fire when you click edit
-            // hide the view button here and upon submit, show it again
-            // like $("#viewclick").hide() or $("#viewclick").fadeOut()
-            });
+        socket.on('missionleader', function(leader){
+            // if(leader.localeCompare(username) != 0) {
+                // $('#messages').append($('<li>').text(msg));
+                
+                // append the player selected class to 
+                $('#player-select-one').click(function() {
+                    // $(this).toggleClass("player-selected");
+                    user_included[0] = !user_included[0];
+                    socket.emit('select player', users[0]);
+                });
+                $('#player-select-two').click(function() {
+                    // $(this).toggleClass("player-selected");
+                    //add this player selectio to an array of some sort
+                    socket.emit('select player', users[1]);
+                });
+                $('#player-select-three').click(function() {
+                    socket.emit('select player', users[2]);
+                });
+                $('#player-select-four').click(function() {
+                    socket.emit('select player', users[3]);
+                });
+                $('#player-select-five').click(function() {
+                    socket.emit('select player', users[4]);
+                });
+            // }
+        });
 
+        socket.on('select player', function(selected){
+            var index = users.indexOf(selected);
+            if (index >=0 && index <3) {
+                $("#top-player-selection:nth-child(" + index + 1 + ")").toggleClass("player-selected");
+            } else { // 3 or 4 
+                $("#bottom-player-selection:nth-child(" + index - 2 + ")").toggleClass("player-selected");
+            }
         });
         </script>
-
-
 
     </body>
 </html>
