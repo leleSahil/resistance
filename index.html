@@ -312,9 +312,12 @@
             socket.emit('set username', username);
             //TODO: hide the join screen. Display the lobby
         });
-        $("#continue-join-button").click(function() {
-            username = $('#name-entry').val();
-            socket.emit('set username', username);
+
+
+        $("#confirm-player-select").click(function() {
+            if(numSelections==3) {
+                socket.emit('lock selections');
+            }
             //TODO: hide the join screen. Display the lobby
         });
 
