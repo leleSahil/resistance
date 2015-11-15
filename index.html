@@ -12,8 +12,30 @@
     <body>
         <div class="container">
 
+            <!-- Join Room Screen -->
+            <div id="join-room" class="">
+
+                <h4>Join a Game</h4>
+
+                <!-- Room Code Input -->
+                <input id="room-code-entry" type="text" placeholder="Room Code" class="join-input">
+
+                <!-- Name Input -->
+                <input id="name-entry" type="text" placeholder="Name" class="join-input">
+
+                <!-- Photo Input -->
+                <div class="upload-container">
+                    <input id="picture-entry" type="file" capture="camera" accept="image/*" name="cameraInput" class="hidden">
+                    <label for="picture-entry" class="picture-entry-label">Upload Player Photo</label>
+                </div>
+
+                <div id="continue-join-button">
+                    Continue
+                </div>
+            </div>
+
             <!-- Top Bar -->
-            <div class="top-bar">
+            <div class="top-bar hidden">
                 <div id="one" class="round rebels-won">
                     <h4 id="one-text" class="numplayers">2</h4>
                 </div>
@@ -150,7 +172,7 @@
             </div>
 
             <!-- Select / Fail Choice -->
-            <div id="success-fail-selection-screen" class="">
+            <div id="success-fail-selection-screen" class="hidden">
                 <div class="info-pane">
 
                     <div id="play-cards-instruction" class="card-instruction">

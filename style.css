@@ -317,6 +317,59 @@ body {
     text-align: center;
 }
 
+#join-room {
+    text-align: center;
+}
+
+#join-room > h4 {
+    color: white;
+    text-align: center;
+    margin-top: 10vw;
+    margin-bottom: 15vw;
+    font-size: 8vw;
+}
+
+.join-input {
+    display: block;
+    text-align: center;
+    margin: auto;
+    margin-top: 10vw;
+    background-color: #2d2a2c;
+    border-style:none;
+    width: 65vw;
+    height: 20vw;
+    font-size: 5vw;
+    font-family: "Montserrat", sans-serif;
+    color: white;
+    border-radius: 3vw;
+    outline: none;
+}
+
+.upload-container {
+    margin: auto;
+    margin-top: 10vw;
+    width: 65vw;
+    height: 10vw;
+    background-color: #aca9ab;
+    padding-top: 5vw;
+    border-radius: 3vw;
+    border-style: solid;
+    border-width: 1vw;
+    border-color: #2d2a2c;
+}
+
+.picture-entry-label {
+    color: #2d2a2c;
+    font-size: 4vw;
+}
+
+#continue-join-button {
+    color: white;
+    opacity: .5;
+    margin-top: 10vw;
+    font-size: 5vw;
+}
+
 .button-container {
     background-color: #2d2a2c;
     height: 100%;
