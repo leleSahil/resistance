@@ -32,7 +32,7 @@
             </div>
 
             <!-- Player Selection -->
-            <div id="player-select" class="hidden">
+            <div id="player-select">
                 <div class="info-pane">
 
                     <div class="player-queue">
@@ -99,7 +99,7 @@
                 </div>
 
                 <!-- Approve / Deny panel -->
-                <div class="activity-pane">
+                <div class="activity-pane" class="hidden">
 
                     <!-- List of approved players -->
                     <div id="approve-chart">
@@ -171,13 +171,13 @@
         <!-- <script src="http://code.jquery.com/jquery-1.11.1.js"></script> -->
         <!-- <script src="/socket.io/socket.io.js"></script> -->
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"> </script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
         <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
         <script>
         var username; 
         var socket = io();
 
-        var users = []; //usernames
+        var users = ["Rick", "Sahil", "Grant", "Idean", "Matias"]; //usernames
         var user_included = [false, false, false, false, false];
 
         socket.on('missionleader', function(leader){
@@ -209,10 +209,15 @@
 
         socket.on('select player', function(selected){
             var index = users.indexOf(selected);
+            console.log("Index selected is " + index);
+
+
+            //$("div p:nth-child(2)").css("background-color", "yellow");
+
             if (index >=0 && index <3) {
-                $("#top-player-selection:nth-child(" + index + 1 + ")").toggleClass("player-selected");
+                $("#top-player-selection div:nth-of-type(" + (index + 1) + ")").toggleClass("player-selected");
             } else { // 3 or 4 
-                $("#bottom-player-selection:nth-child(" + index - 2 + ")").toggleClass("player-selected");
+                $("#bottom-player-selection:nth-child(" + (index - 2) + ")").toggleClass("player-selected");
             }
         });
         </script>

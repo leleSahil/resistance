@@ -29,6 +29,7 @@ var num_votes = 0;
 
 io.on('connection', function(socket){
   console.log('a user connected');
+  socket.emit("missionleader", "Sahil");
 
   socket.on('disconnect', function(){
     console.log('user disconnected');
@@ -59,7 +60,7 @@ io.on('connection', function(socket){
       });
 
   socket.on('select player', function(select_player) {
-	  selections = selections.push(select_player);
+	  selections.push(select_player);
     console.log('Player selected');
 	  io.emit('select player', select_player);
 
