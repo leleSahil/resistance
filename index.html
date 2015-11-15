@@ -320,30 +320,36 @@
             $("#lobby-screen").toggleClass("hidden");
         });
 
-        $("#confirm-player-select").click(function() {
+        $("#start-game-button").click(function() {
             if(numSelections==3) {
                 socket.emit('lock selections');
             }
-            //TODO: hide the join screen. Display the lobby
+            //TODO: Clear lobby screen updates. Hide the lobby screen. Start the count down.
+            //Upon ending count down, display the mission select screen
         });
 
         $("#approve-button").click(function() {
             socket.emit('mission approve', username);
             console.log("Button is working nice lady");
         });
+
         $("#deny-button").click(function() {
             socket.emit('mission reject', username);
         });
 
+        //TODO: set the click function of the success button to emit a 'mission succeed' message
+
+        //TODO: set the click function of the fail button to emit a 'mission fail' message
+
         socket.on('new user', function(updated_users) {
-            console.log("Client new user");
             users = updated_users;
-            console.log("trying to add " + users[i]);
-            $("top-player-joined").children().each(function(i){
+            $("#top-player-joined").children().each(function(i){
                 if(i < users.length){
                     $(this).text(users[i]);
-
                 }
+            if(users.length >=3){
+                //TODO: populate the bottom row with names of joined players if there are any
+            }
             });
         });
 
@@ -417,6 +423,14 @@
                 $('#approved-player-three').text(username);
             }
             numApproves++;
+            //TODO: check if numApproves is majority and move on to the succeed/fail screen, enabling appropriate buttons.
+            //clear data associated with this screen
+        });
+
+        socket.on('mission reject', function(username){
+            //TODO: append the received username to the list of rejects
+            //increment num rejects. cheeck if numRejects is majority and move to next screen.
+            //clear data as appropriate
         });
 
         function selectionUpdate(index){

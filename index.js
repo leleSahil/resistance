@@ -29,7 +29,7 @@ var num_votes = 0;
 
 io.on('connection', function(socket){
   console.log('a user connected');
-  socket.emit("missionleader", "Sahil");
+  //socket.emit("missionleader", "Sahil");
 
   socket.on('disconnect', function(){
     console.log('user disconnected');
@@ -50,7 +50,7 @@ io.on('connection', function(socket){
         if(usernames[i].localeCompare(spies[0]) == 0 || usernames[i].localeCompare(spies[1]) == 0) { // is a spy
           //socket.emit('team assignment', 'spy');
           //socket.emit('other spies', "" + spies[0] + " " + spies[1]);
-          socket.emit(spies);
+          socket.emit('other spies', spies);
         } 
         // else {
         //   socket.emit('team assignment', 'resistance');
