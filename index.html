@@ -12,7 +12,7 @@
         <div class="container">
 
             <!-- Start Screen -->
-            <div id="start-screen" class="hidden">
+            <div id="start-screen" class="">
 
                 <h4>The Rebellion</h4>
 
@@ -104,7 +104,7 @@
             <!-- Top Bar -->
                 <!-- Add class spies-won or rebels-won for victories -->
                 <!-- Add class active-round for... active round  -->
-            <div class="top-bar">
+            <div class="hidden">
                 <div id="one" class="round rebels-won">
                     <h4 id="one-text" class="numplayers">2</h4>
                 </div>
@@ -125,7 +125,7 @@
 
             <!-- !!!!!!!!!!!! GIANT ASS COMMENTS FOR PLAYER SELECTION !!!!!!!!!-->
             <!-- Player Selection -->
-            <div id="player-select" class="">
+            <div id="player-select" class="hidden">
                 <div class="info-pane">
 
                     <div class="player-queue">
@@ -307,12 +307,17 @@
         var users = ["Rick", "Sahil", "Grant", "Idean", "Matias"]; //usernames
         var user_included = [false, false, false, false, false];
 
+        $("#join-game").click(function(){
+            $("#start-screen").toggleClass("hidden");
+            $("#join-room").toggleClass("hidden");
+        });
 
         // submitting username
         $("#continue-join-button").click(function() {
             username = $('#name-entry').val();
             socket.emit('set username', username);
-            //TODO: hide the join screen. Display the lobby
+            $("#join-room").toggleClass("hidden");
+            $("#lobby-screen").toggleClass("hidden");
         });
 
         $("#confirm-player-select").click(function() {
@@ -330,8 +335,16 @@
             socket.emit('mission reject', username);
         });
 
-        socket.on('new user', function(new_user) {
-            users.push(new_user);
+        socket.on('new user', function(updated_users) {
+            console.log("Client new user");
+            users = updated_users;
+            console.log("trying to add " + users[i]);
+            $("top-player-joined").children().each(function(i){
+                if(i < users.length){
+                    $(this).text(users[i]);
+
+                }
+            });
         });
 
         // only receive this if this person is a spy
