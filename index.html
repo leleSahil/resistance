@@ -12,7 +12,7 @@
     <body>
         <div class="container">
 
-<!-- Top Bar -->
+            <!-- Top Bar -->
             <div class="top-bar">
                 <div id="one" class="round rebels-won">
                     <h4 id="one-text" class="numplayers">2</h4>
@@ -31,66 +31,93 @@
                 </div>
             </div>
 
-<!-- Player Selection -->
-            <div id="player-select">
+            <!-- Player Selection -->
+            <div id="player-select" class="hidden">
                 <div class="info-pane">
+
                     <div class="player-queue">
                         <!-- Profile Pictures -->
                         <div id="player-queue-one" class="player-queue-icon"></div>
                         <div id="player-queue-two" class="player-queue-icon"></div>
                         <div id="player-queue-three" class="player-queue-icon"></div>
                     </div>
+
                     <div id="player-queue-instruction" class="player-instruction">
                         <b>Name</b>, Select <b>#</b> Participants
                     </div>
+
                 </div>
                 <div class="activity-pane">
+
+                    <!-- Top row of player selections -->
                     <div id="top-player-selection">
                         <div id="player-select-one" class="player-select-top player-selected"></div>
                         <div id="player-select-two" class="player-select-top"></div>
                         <div id="player-select-three" class="player-select-top"></div>
                     </div>
+
+                    <!-- Bottom row of player selections -->
                     <div id="bottom-player-selection">
                         <div id="player-select-four" class="player-select-bottom"></div>
                         <div id="player-select-five" class="player-select-bottom"></div>
                     </div>
+
                     <div id="confirm-player-select" class="hidden-mock">
                         Confirm
                     </div>
+
                 </div>
             </div>
 
-<!-- Approve/Deny -->
+            <!-- Approve/Deny -->
             <div id="approve-deny-screen" class="hidden">
+
+                <!-- Players selected for this mission -->
                 <div class="info-pane">
+
+                    <!-- Display 2 selected players -->
                     <div class="selected-players-two hidden">
                         <div id="player-selected-one" class="player-selected-icon-two"></div>
                         <div id="player-selected-two" class="player-selected-icon-two"></div>
                     </div>
+
+                    <!-- Display 3 selected players -->
                     <div class="selected-players-three">
                         <div id="player-selected-one" class="player-selected-icon-three">
+                            <!-- Placeholder before profile pictures are added -->
                             <span style="position:fixed">Grant</span>
                         </div>
                         <div id="player-selected-two" class="player-selected-icon-three"></div>
                         <div id="player-selected-three" class="player-selected-icon-three"></div>
                     </div>
+
+
                     <div id="player-queue-instruction" class="player-instruction">
                         <b style="color:#8FC93A">Approve</b> or <b style="color:#F7B538">Deny</b> the Mission?
                     </div>
+
                 </div>
+
+                <!-- Approve / Deny panel -->
                 <div class="activity-pane">
+
+                    <!-- List of approved players -->
                     <div id="approve-chart">
                         <div class="approve-deny">Approved</div>
                         <div id="approved-player-one" class="approved-denied-player">Name 1</div>
                         <div id="approved-player-two" class="approved-denied-player">Name 2</div>
                         <div id="approved-player-three" class="approved-denied-player"></div>
                     </div>
+
+                    <!-- List denied players -->
                     <div id="deny-chart">
                         <div class="approve-deny">Denied</div>
                         <div id="denied-player-one" class="approved-denied-player">Name 1</div>
                         <div id="denied-player-two" class="approved-denied-player">Name 2</div>
                         <div id="denied-player-three" class="approved-denied-player">Name 3</div>
                     </div>
+
+                    <!-- Approve / Deny buttons -->
                     <div class="button-container">
                         <div id="approve-button">✓</div>
                         <div id="deny-button">×</div>
@@ -98,33 +125,44 @@
                 </div>
             </div>
 
-<!-- Success/Fail Waiting -->
+            <!-- Success/Fail Waiting -->
             <div id="success-fail-pending-screen" class="hidden">
                 <div class="info-pane">
+
+                    <!-- 2 waiting cards -->
                     <div class="played-cards-two hidden">
                         <div id="played-card-one" class="played-card-icon-two">?</div>
                         <div id="played-card-two" class="played-card-icon-two">?</div>
                     </div>
+
+                    <!-- 3 waiting cards -->
                     <div class="played-cards-three">
                         <div id="played-card-one" class="played-card-icon-three">?</div>
                         <div id="played-card-two" class="played-card-icon-three">?</div>
                         <div id="played-card-three" class="played-card-icon-three">?</div>
                     </div>
+
                     <div id="played-cards-instruction" class="card-instruction">
                         Awaiting Mission Results
                     </div>
+
                 </div>
             </div>
 
+            <!-- Select / Fail Choice -->
             <div id="success-fail-selection-screen" class="">
                 <div class="info-pane">
+
                     <div id="play-cards-instruction" class="card-instruction">
                         Select Mission Action
                     </div>
+
+                    <!-- Success / Fail Selection (Hide fail for non-spies)-->
                     <div class="success-fail-selection">
                         <div id="success-button">Success</div>
                         <div id="fail-button" class="">Failure</div>
                     </div>
+
                 </div>
             </div>
 
