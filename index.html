@@ -12,7 +12,7 @@
         <div class="container">
 
             <!-- Start Screen -->
-            <div id="start-screen" class="">
+            <div id="start-screen" class="hidden">
 
                 <h4>The Rebellion</h4>
 
@@ -197,8 +197,8 @@
                     <!-- List of approved players -->
                     <div id="approve-chart">
                         <div class="approve-deny">Approved</div>
-                        <div id="approved-player-one" class="approved-denied-player">Name 1</div>
-                        <div id="approved-player-two" class="approved-denied-player">Name 2</div>
+                        <div id="approved-player-one" class="approved-denied-player"></div>
+                        <div id="approved-player-two" class="approved-denied-player"></div>
                         <div id="approved-player-three" class="approved-denied-player"></div>
                     </div>
 
@@ -295,10 +295,12 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
         <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
         <script>
-        var username;
+        var username = "Rick";
         var socket = io();
         var team_assignment = "rebel";
         var numSelections = 0;
+        var numApproves;
+        var numRejects;
 
         //users = [];
         spies = [];
@@ -313,7 +315,6 @@
             //TODO: hide the join screen. Display the lobby
         });
 
-
         $("#confirm-player-select").click(function() {
             if(numSelections==3) {
                 socket.emit('lock selections');
@@ -321,10 +322,17 @@
             //TODO: hide the join screen. Display the lobby
         });
 
+        $("#approve-button").click(function() {
+            socket.emit('mission approve', username);
+            console.log("Button is working nice lady");
+        });
+        $("#deny-button").click(function() {
+            socket.emit('mission reject', username);
+        });
+
         socket.on('new user', function(new_user) {
             users.push(new_user);
         });
-
 
         // only receive this if this person is a spy
         socket.on('other spies', function(spies_arr) { //spies is an array of the spies
@@ -377,7 +385,25 @@
         });
 
         socket.on('lock selections', function(){
+            $("#player-select").toggleClass("hidden");
+            $("#approve-deny-screen").toggleClass("hidden");
 
+            $("#top-player-selection").children().css("opacity", "0.25");
+            $("#bottom-player-selection").children().css("opacity", "0.25");
+
+            user_included = [false, false, false, false, false];
+            numSelections = 0;
+        });
+
+        socket.on('mission approve', function(username) {
+            if(numApproves == 0) {
+                $('#approved-player-one').text(username);
+            } else if (numApproves == 1) {
+                $('#approved-player-two').text(username);
+            } else { // if (numApproves == 2) 
+                $('#approved-player-three').text(username);
+            }
+            numApproves++;
         });
 
         function selectionUpdate(index){

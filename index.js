@@ -81,14 +81,15 @@ io.on('connection', function(socket){
 	 io.emit('lock selections');
   });
 
-  socket.on('mission approve', function(){
+  socket.on('mission approve', function(username){
 	  mission_approves += 1;
+    console.log("Button is working nice lady");
 	  if(mission_approves == 3){
 	      io.emit('majority approve');
 	      mission_approves = 0;
 	  }
 	  else {
-	      io.emit('mission approve');
+	      io.emit('mission approve', username);
 	  }
   });
 
