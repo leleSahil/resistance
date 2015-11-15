@@ -61,6 +61,14 @@ body {
     color: #2d2a2c;
 }
 
+#start-screen > h4{
+    text-align: center;
+    color: white;
+    font-size: 10vw;
+}
+
+
+
 .info-pane {
 }
 
@@ -125,7 +133,15 @@ body {
     padding-left: 25vw;
 }
 
+#bottom-player-joined {
+    padding-left: 25vw;
+}
+
 #player-select-five {
+    margin-left: 10vw;
+}
+
+#player-joined-five {
     margin-left: 10vw;
 }
 
@@ -329,6 +345,23 @@ body {
     font-size: 8vw;
 }
 
+#lobby-screen > h4 {
+    color: white;
+    text-align: center;
+    margin-top: 10vw;
+    margin-bottom: 5vw;
+    font-size: 8vw;
+}
+
+#lobby-screen > h3 {
+    color: white;
+    text-align: center;
+    margin-top: 3vw;
+    margin-bottom: 5vw;
+    font-size: 5vw;
+    font-weight: normal;
+}
+
 .join-input {
     display: block;
     text-align: center;
@@ -365,14 +398,136 @@ body {
 
 #continue-join-button {
     color: white;
-    opacity: .5;
+    opacity: .25;
     margin-top: 10vw;
     font-size: 5vw;
+}
+
+.start-button {
+    text-align: center;
+    font-size: 5vw;
+    margin: auto;
+    margin-top: 10vw;
+    width: 65vw;
+    height: 10vw;
+    background-color: #aca9ab;
+    padding-top: 4vw;
+    border-radius: 3vw;
+    border-style: solid;
+    border-width: 1vw;
+    border-color: #2d2a2c;
+}
+
+#start-game-button {
+    color: white;
+    opacity: .25;
+    margin-top: 15vw;
+    font-size: 5vw;
+    text-align: center;
 }
 
 .button-container {
     background-color: #2d2a2c;
     height: 100%;
+}
+
+#countdown {
+    text-align: center;
+    color: white;
+    margin-top: 20vw;
+    font-size: 80vw;
+}
+
+#reveal-screen {
+    text-align: center;
+}
+
+.alignment {
+    color: white;
+    font-size: 10vw;
+    margin-top: 10vw;
+}
+
+#token-rebel {
+    margin-left: 28.5vw;
+    margin-top: 10vw;
+    width: 40vw;
+    height: 40vw;
+    border-radius: 50%;
+    background-color: #2d7dd2;
+    border-style: solid;
+    border-width: 3vw;
+    border-color: #77b4f5;
+}
+
+#token-spy {
+    margin-left: 28.5vw;
+    margin-top: 10vw;
+    width: 40vw;
+    height: 40vw;
+    border-radius: 50%;
+    background-color: #d70230;
+    border-style: solid;
+    border-width: 3vw;
+    border-color: #f77e98;
+}
+
+.teammate-container {
+    margin-top: 5vw;
+}
+
+#teammate-icon {
+    width: 15vw;
+    height: 15vw;
+    display: inline-block;
+    background-color: white;
+}
+
+#teammate-name {
+    display: inline-block;
+    color: white;
+    font-size: 6vw;
+    margin-left: 5vw;
+}
+
+.teammate-label {
+    margin-top: 5vw;
+    display: inline-block;
+    color: white;
+    font-size: 8vw;
+    margin-left: 5vw;
+}
+
+#got-it-button {
+    margin: auto;
+    margin-top: 8vw;
+    width: 30vw;
+    height: 10vw;
+    background-color: #aca9ab;
+    padding-top: 5vw;
+    border-radius: 3vw;
+    font-size: 5vw;
+    border-style: solid;
+    border-width: 1vw;
+    border-color: #2d2a2c;
+}
+
+.rebels-win-text {
+    color: #2d7dd2;
+}
+
+.spies-win-text {
+    color: #d70230;
+}
+
+.win {
+    color: white;
+}
+
+.win-container {
+    padding-top: 50vw;
+    text-align: center;
+    font-size: 20vw;
 }
 
 .hidden {

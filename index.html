@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
@@ -11,6 +10,21 @@
     </head>
     <body>
         <div class="container">
+
+            <!-- Start Screen -->
+            <div id="start-screen" class="hidden">
+
+                <h4>The Rebellion</h4>
+
+                <div id="make-game" class="start-button">
+                    Make Game
+                </div>
+
+                <div id="join-game" class="start-button">
+                    Join Game
+                </div>
+
+            </div>
 
             <!-- Join Room Screen -->
             <div id="join-room" class="hidden">
@@ -34,7 +48,62 @@
                 </div>
             </div>
 
+            <!-- Lobby -->
+            <div id="lobby-screen" class="hidden">
+
+                <h4>Lobby</h4>
+                <h3 id="room-code-label">Room Code: </h3>
+
+                <!-- Top row of players -->
+                <div id="top-player-joined">
+                    <div id="player-joined-one" class="player-select-top player-selected"></div>
+                    <div id="player-joined-two" class="player-select-top player-selected"></div>
+                    <div id="player-joined-three" class="player-select-top player-selected"></div>
+                </div>
+
+                <!-- Bottom row of players-->
+                <div id="bottom-player-joined">
+                    <div id="player-joined-four" class="player-select-bottom player-selected"></div>
+                    <div id="player-joined-five" class="player-select-bottom player-selected"></div>
+                </div>
+
+                <div id="start-game-button">
+                    Start Game
+                </div>
+            </div>
+
+            <!-- Token Reveal -->
+            <div id="reveal-screen" class="hidden">
+
+                <!-- Countdown -->
+                <div id="countdown" class="hidden">
+                    10
+                </div>
+
+                <!-- Alignment (id token-rebel for rebel) -->
+                <div class="alignment">
+                    Alignment:
+                </div>
+                <div id="token-spy"></div>
+
+                <!-- Spy info - hide label and container for rebel -->
+                <div class="teammate-label">
+                    Teammate:
+                </div>
+                <div class="teammate-container">
+                    <div id="teammate-icon"></div>
+                    <div id="teammate-name">Name</div>
+                </div>
+
+                <div id="got-it-button">
+                    Got it!
+                </div>
+
+            </div>
+
             <!-- Top Bar -->
+                <!-- Add class spies-won or rebels-won for victories -->
+                <!-- Add class active-round for... active round  -->
             <div class="top-bar">
                 <div id="one" class="round rebels-won">
                     <h4 id="one-text" class="numplayers">2</h4>
@@ -51,6 +120,7 @@
                 <div id="five" class="round">
                     <h4 id="five-text" class="numplayers">3</h4>
                 </div>
+
             </div>
 
             <!-- !!!!!!!!!!!! GIANT ASS COMMENTS FOR PLAYER SELECTION !!!!!!!!!-->
@@ -127,8 +197,8 @@
                     <!-- List of approved players -->
                     <div id="approve-chart">
                         <div class="approve-deny">Approved</div>
-                        <div id="approved-player-one" class="approved-denied-player">Name 1</div>
-                        <div id="approved-player-two" class="approved-denied-player">Name 2</div>
+                        <div id="approved-player-one" class="approved-denied-player"></div>
+                        <div id="approved-player-two" class="approved-denied-player"></div>
                         <div id="approved-player-three" class="approved-denied-player"></div>
                     </div>
 
@@ -189,6 +259,34 @@
                 </div>
             </div>
 
+            <!-- Victory Screen -->
+            <div id="victory-screen" class="hidden">
+                <div class="win-container">
+
+                    <!-- Rebels Win (hide for spy victory) -->
+                    <div id="rebels-win" class="">
+                        <div class="rebels-win-text">
+                            Rebels
+                        </div>
+                        <div class="win">
+                            Win!
+                        </div>
+                    </div>
+
+
+                    <!-- Spies Win (hide for rebel victory) -->
+                    <div id="spies-won" class="hidden">
+                        <div class="spies-win-text">
+                            Spies
+                        </div>
+                        <div class="win">
+                            Win!
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
         </div>
 
         <!-- <script src="http://code.jquery.com/jquery-1.11.1.js"></script> -->
@@ -197,10 +295,12 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
         <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
         <script>
-        var username; 
+        var username = "Rick";
         var socket = io();
         var team_assignment = "rebel";
         var numSelections = 0;
+        var numApproves;
+        var numRejects;
 
         //users = [];
         spies = [];
@@ -214,16 +314,25 @@
             socket.emit('set username', username);
             //TODO: hide the join screen. Display the lobby
         });
-        $("#continue-join-button").click(function() {
-            username = $('#name-entry').val();
-            socket.emit('set username', username);
+
+        $("#confirm-player-select").click(function() {
+            if(numSelections==3) {
+                socket.emit('lock selections');
+            }
             //TODO: hide the join screen. Display the lobby
+        });
+
+        $("#approve-button").click(function() {
+            socket.emit('mission approve', username);
+            console.log("Button is working nice lady");
+        });
+        $("#deny-button").click(function() {
+            socket.emit('mission reject', username);
         });
 
         socket.on('new user', function(new_user) {
             users.push(new_user);
         });
-
 
         // only receive this if this person is a spy
         socket.on('other spies', function(spies_arr) { //spies is an array of the spies
@@ -241,7 +350,6 @@
 
         socket.on('missionleader', function(leader){
             // if(leader.localeCompare(username) != 0) {
-                
                 // append the player selected class to 
                 $('#player-select-one').click(function() {
                     selectionUpdate(0);
@@ -273,11 +381,29 @@
         socket.on('deselect player', function(deselected){
             var index = users.indexOf(deselected);
             console.log("Index deselected is " + index);
-            toggleSelection(index);
+            toggleSelection(index)
         });
 
         socket.on('lock selections', function(){
+            $("#player-select").toggleClass("hidden");
+            $("#approve-deny-screen").toggleClass("hidden");
 
+            $("#top-player-selection").children().css("opacity", "0.25");
+            $("#bottom-player-selection").children().css("opacity", "0.25");
+
+            user_included = [false, false, false, false, false];
+            numSelections = 0;
+        });
+
+        socket.on('mission approve', function(username) {
+            if(numApproves == 0) {
+                $('#approved-player-one').text(username);
+            } else if (numApproves == 1) {
+                $('#approved-player-two').text(username);
+            } else { // if (numApproves == 2) 
+                $('#approved-player-three').text(username);
+            }
+            numApproves++;
         });
 
         function selectionUpdate(index){
@@ -294,9 +420,9 @@
             if(numSelections==3) {
                 $("#confirm-player-select").css("opacity", "1");
             }
-            // if(numSelections<3) { 
-            //     $("#confirm-player-select").css("opacity", "0.25");
-            // }
+            if(numSelections<3) { 
+                $("#confirm-player-select").css("opacity", "0.25");
+            }
         }
 
         function toggleSelection(index) {
