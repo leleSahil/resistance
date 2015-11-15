@@ -273,7 +273,7 @@
         socket.on('deselect player', function(deselected){
             var index = users.indexOf(deselected);
             console.log("Index deselected is " + index);
-            toggleSelection(index);
+            toggleSelection(index)
         });
 
         socket.on('lock selections', function(){
@@ -294,9 +294,9 @@
             if(numSelections==3) {
                 $("#confirm-player-select").css("opacity", "1");
             }
-            // if(numSelections<3) { 
-            //     $("#confirm-player-select").css("opacity", "0.25");
-            // }
+            if(numSelections<3) { 
+                $("#confirm-player-select").css("opacity", "0.25");
+            }
         }
 
         function toggleSelection(index) {
