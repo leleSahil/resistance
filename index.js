@@ -47,11 +47,13 @@ io.on('connection', function(socket){
     	//function to proceed the game, maybe make some function like "main"
       for (var i=0; i<usernames.length; i++) {
         if(usernames[i].localeCompare(spies[0]) == 0 || usernames[i].localeCompare(spies[1]) == 0) { // is a spy
-          socket.emit('team assignment', 'spy');
-          socket.emit('other spies', "" + spies[0] + " " + spies[1]);
-        } else {
-          socket.emit('team assignment', 'resistance');
-        }
+          //socket.emit('team assignment', 'spy');
+          //socket.emit('other spies', "" + spies[0] + " " + spies[1]);
+          socket.emit(spies);
+        } 
+        // else {
+        //   socket.emit('team assignment', 'resistance');
+        // }
       }
       io.emit('start game', "");
       missionleader = getRandomInt(0,5);
@@ -66,14 +68,14 @@ io.on('connection', function(socket){
 
   });
 
-  // socket.on('deselect player', function(deselect_player) {
-	 //  for(var i=0; i<selections.length; i++) {
-	 //      if(selections[i].localeCompare == 0) {
-		//   selections.splice(i, 1);
-	 //      }
-	 //  }
-	 //  io.emit('deselect player', deselect_player);
-  // });
+  socket.on('deselect player', function(deselect_player) {
+	  for(var i=0; i<selections.length; i++) {
+	      if(selections[i].localeCompare == 0) {
+		  selections.splice(i, 1);
+	      }
+	  }
+	  io.emit('deselect player', deselect_player);
+  });
 
   socket.on('lock selections', function(){
 	 io.emit('lock selections');
