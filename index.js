@@ -60,21 +60,23 @@ io.on('connection', function(socket){
 
   socket.on('select player', function(select_player) {
 	  selections = selections.push(select_player);
+    console.log('Player selected');
 	  io.emit('select player', select_player);
-      });
 
-  socket.on('deselect player', function(deselect_player) {
-	  for(var i=0; i<selections.length; i++) {
-	      if(selections[i].localeCompare == 0) {
-		  selections.splice(i, 1);
-	      }
-	  }
-	  io.emit('deselect player', deselect_player);
-      });
+  });
+
+  // socket.on('deselect player', function(deselect_player) {
+	 //  for(var i=0; i<selections.length; i++) {
+	 //      if(selections[i].localeCompare == 0) {
+		//   selections.splice(i, 1);
+	 //      }
+	 //  }
+	 //  io.emit('deselect player', deselect_player);
+  // });
 
   socket.on('lock selections', function(){
-	  io.emit('lock selections');
-      });
+	 io.emit('lock selections');
+  });
 
   socket.on('mission approve', function(username){
 	  mission_approves += 1;
@@ -85,7 +87,7 @@ io.on('connection', function(socket){
 	  else {
 	      io.emit('mission approve', username);
 	  }
-      });
+  });
 
   socket.on('misson reject', function(username){
 	  mission_rejects += 1;
@@ -97,7 +99,8 @@ io.on('connection', function(socket){
 	  else {
 	      io.emit('mission reject', username);
 	  }
-      });
+
+  });
 
 
   socket.on('mission succeed', function(){
