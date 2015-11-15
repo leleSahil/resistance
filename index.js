@@ -116,6 +116,7 @@ io.on('connection', function(socket){
   socket.on('mission fail', function(){
     num_votes += 1;
     mission_succeed = false;
+    tryCompleteMission();
   });
 });
 
@@ -165,14 +166,16 @@ function tryCompleteMission(){
     else{
       io.emit('mission failed');
       spyScore += 1;
+      round +=1;
     }
 
     if(rebelScore == 3){
-      io.emit('rebels win');
-      //emit rebel and spy names
+      io.emit('game end', 'rebels');
+      io.emit('spy reveal', spies)
     }
     else if(spyScore == 3){
-      io.emit('spies win');
+      io.emit('spies win', 'spies');
+      io.emit('spy reveal', spies)
     }
     else{
       updateMissionLeader();
