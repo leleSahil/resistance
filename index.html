@@ -433,6 +433,22 @@
             //clear data as appropriate
         });
 
+        socket.on('mission succeeded', function(){
+            //TODO: Display message for success
+        });
+
+        socket.on('mission failed', function(){
+            //TODO: Display message for failure
+        });
+
+        socket.on('game end', function(winners){
+            //TODO: check winners variable to display who won
+        });
+
+        socket.on('spy reveal', function(spies){
+            //TODO: acess spies to display who the spies were
+        });
+
         function selectionUpdate(index){
             if(user_included[index]) {
                 numSelections -= 1;
