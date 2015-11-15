@@ -13,7 +13,7 @@
         <div class="container">
 
             <!-- Join Room Screen -->
-            <div id="join-room" class="">
+            <div id="join-room" class="hidden">
 
                 <h4>Join a Game</h4>
 
@@ -35,7 +35,7 @@
             </div>
 
             <!-- Top Bar -->
-            <div class="top-bar hidden">
+            <div class="top-bar">
                 <div id="one" class="round rebels-won">
                     <h4 id="one-text" class="numplayers">2</h4>
                 </div>
@@ -53,8 +53,9 @@
                 </div>
             </div>
 
+            <!-- !!!!!!!!!!!! GIANT ASS COMMENTS FOR PLAYER SELECTION !!!!!!!!!-->
             <!-- Player Selection -->
-            <div id="player-select">
+            <div id="player-select" class="">
                 <div class="info-pane">
 
                     <div class="player-queue">
@@ -73,7 +74,7 @@
 
                     <!-- Top row of player selections -->
                     <div id="top-player-selection">
-                        <div id="player-select-one" class="player-select-top player-selected"></div>
+                        <div id="player-select-one" class="player-select-top"></div>
                         <div id="player-select-two" class="player-select-top"></div>
                         <div id="player-select-three" class="player-select-top"></div>
                     </div>
@@ -198,50 +199,114 @@
         <script>
         var username; 
         var socket = io();
+        var team_assignment = "rebel";
+        var numSelections = 0;
 
+        //users = [];
+        spies = [];
         var users = ["Rick", "Sahil", "Grant", "Idean", "Matias"]; //usernames
         var user_included = [false, false, false, false, false];
 
+
+        // submitting username
+        $("#continue-join-button").click(function() {
+            username = $('#name-entry').val();
+            socket.emit('set username', username);
+            //TODO: hide the join screen. Display the lobby
+        });
+        $("#continue-join-button").click(function() {
+            username = $('#name-entry').val();
+            socket.emit('set username', username);
+            //TODO: hide the join screen. Display the lobby
+        });
+
+        socket.on('new user', function(new_user) {
+            users.push(new_user);
+        });
+
+
+        // only receive this if this person is a spy
+        socket.on('other spies', function(spies_arr) { //spies is an array of the spies
+            spies = spies_arr;
+            team_assignment = "spy";
+        });
+
+        // socket.on('team assignment', function(assignment) { //spies is an array of the spies
+        //     team_assignment = assignment;
+        // });
+
+        socket.on('start game', function(msg){
+            //TODO:display count down and then load the player
+        });
+
         socket.on('missionleader', function(leader){
             // if(leader.localeCompare(username) != 0) {
-                // $('#messages').append($('<li>').text(msg));
                 
                 // append the player selected class to 
                 $('#player-select-one').click(function() {
-                    // $(this).toggleClass("player-selected");
-                    user_included[0] = !user_included[0];
-                    socket.emit('select player', users[0]);
+                    selectionUpdate(0);
                 });
                 $('#player-select-two').click(function() {
-                    // $(this).toggleClass("player-selected");
-                    //add this player selectio to an array of some sort
-                    socket.emit('select player', users[1]);
+                    selectionUpdate(1);
                 });
                 $('#player-select-three').click(function() {
-                    socket.emit('select player', users[2]);
+                    selectionUpdate(2);
                 });
                 $('#player-select-four').click(function() {
-                    socket.emit('select player', users[3]);
+                    selectionUpdate(3);
                 });
                 $('#player-select-five').click(function() {
-                    socket.emit('select player', users[4]);
+                    selectionUpdate(4);
                 });
+
             // }
         });
+
 
         socket.on('select player', function(selected){
             var index = users.indexOf(selected);
             console.log("Index selected is " + index);
-
-
             //$("div p:nth-child(2)").css("background-color", "yellow");
+            toggleSelection(index);
+        });
 
+        socket.on('deselect player', function(deselected){
+            var index = users.indexOf(deselected);
+            console.log("Index deselected is " + index);
+            toggleSelection(index);
+        });
+
+        socket.on('lock selections', function(){
+
+        });
+
+        function selectionUpdate(index){
+            if(user_included[index]) {
+                numSelections -= 1;
+                user_included[index] = !user_included[index];
+                // console.log(Included is now + user_included[index]);
+                socket.emit('deselect player', users[index]);
+            } else if (numSelections<3) {
+                numSelections += 1;
+                user_included[index] = !user_included[index];
+                socket.emit('select player', users[index]);
+            } 
+            if(numSelections==3) {
+                $("#confirm-player-select").css("opacity", "1");
+            }
+            // if(numSelections<3) { 
+            //     $("#confirm-player-select").css("opacity", "0.25");
+            // }
+        }
+
+        function toggleSelection(index) {
             if (index >=0 && index <3) {
                 $("#top-player-selection div:nth-of-type(" + (index + 1) + ")").toggleClass("player-selected");
             } else { // 3 or 4 
-                $("#bottom-player-selection:nth-child(" + (index - 2) + ")").toggleClass("player-selected");
+                $("#bottom-player-selection div:nth-of-type(" + (index - 2) + ")").toggleClass("player-selected");
             }
-        });
+        }
+
         </script>
 
     </body>
