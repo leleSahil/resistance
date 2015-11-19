@@ -1,5 +1,5 @@
-var app = require('express')();
 var express = require('express');
+var app = require('express')();
 var path = require('path');
 
 app.use(express.static(path.join(__dirname, '')));
@@ -29,7 +29,7 @@ var num_votes = 0;
 
 io.on('connection', function(socket){
   console.log('a user connected');
-  //socket.emit("missionleader", "Sahil");
+  socket.emit("missionleader", "Sahil");
 
   socket.on('disconnect', function(){
     console.log('user disconnected');
@@ -39,8 +39,7 @@ io.on('connection', function(socket){
     console.log('user added: ' + name);
     clients[name] = socket;
     usernames.push(name);
-    console.log("All usernames so far: " + usernames);
-    io.emit('new user', usernames);
+    io.emit('new user', name);
 
     if (tryStartingGame()) {
       assignTeams();
@@ -50,7 +49,7 @@ io.on('connection', function(socket){
         if(usernames[i].localeCompare(spies[0]) == 0 || usernames[i].localeCompare(spies[1]) == 0) { // is a spy
           //socket.emit('team assignment', 'spy');
           //socket.emit('other spies', "" + spies[0] + " " + spies[1]);
-          socket.emit('other spies', spies);
+          socket.emit(spies);
         } 
         // else {
         //   socket.emit('team assignment', 'resistance');
@@ -94,7 +93,7 @@ io.on('connection', function(socket){
 	  }
   });
 
-  socket.on('misson reject', function(username){
+  socket.on('misson reject', function(){
 	  mission_rejects += 1;
 	  if(mission_rejects == 3){
 	      io.emit('majority reject');
@@ -102,11 +101,10 @@ io.on('connection', function(socket){
 	      updateMissionLeader();
 	  }
 	  else {
-	      io.emit('mission reject', username);
+	      io.emit('mission reject');
 	  }
-
   });
-
+    
 
   socket.on('mission succeed', function(){
     num_votes += 1;
@@ -116,12 +114,15 @@ io.on('connection', function(socket){
   socket.on('mission fail', function(){
     num_votes += 1;
     mission_succeed = false;
-    tryCompleteMission();
   });
 });
 
-http.listen(3000, function(){
-  console.log('listening on *:3000');
+/*var server = http.createServer();
+server.listen(3000, 'resistmob.cloudapp.net');
+console.log('listening on *:3000');*/
+
+http.listen(8000, "0.0.0.0", function(){
+  console.log('listening on *:8000');
 });
 
 
@@ -166,16 +167,14 @@ function tryCompleteMission(){
     else{
       io.emit('mission failed');
       spyScore += 1;
-      round +=1;
     }
 
     if(rebelScore == 3){
-      io.emit('game end', 'rebels');
-      io.emit('spy reveal', spies)
+      io.emit('rebels win');
+      //emit rebel and spy names
     }
     else if(spyScore == 3){
-      io.emit('spies win', 'spies');
-      io.emit('spy reveal', spies)
+      io.emit('spies win');
     }
     else{
       updateMissionLeader();
