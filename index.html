@@ -1,35 +1,482 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-  <head>
-    <title>Socket.IO chat</title>
-    <style>
-      * { margin: 0; padding: 0; box-sizing: border-box; }
-      body { font: 13px Helvetica, Arial; }
-      form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
-      form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
-      form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
-      #messages { list-style-type: none; margin: 0; padding: 0; }
-      #messages li { padding: 5px 10px; }
-      #messages li:nth-child(odd) { background: #eee; }
-    </style>
-  </head>
-  <body>
-    <ul id="messages"></ul>
-    <form action="">
-      <input id="m" autocomplete="off" /><button>Send</button>
-    </form>
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
-    <script>
-      var socket = io();
-      $('form').submit(function(){
-        socket.emit('chat message', $('#m').val());
-        $('#m').val('');
-        return false;
-      });
-      socket.on('chat message', function(msg){
-        $('#messages').append($('<li>').text(msg));
-      });
-    </script>
-  </body>
+    <head>
+        <meta charset="utf-8">
+        <title>Resistance</title>
+        <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="/style.css">
+        <!-- <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css"> -->
+
+    </head>
+    <body>
+        <div class="container">
+
+            <!-- Start Screen -->
+            <div id="start-screen" class="">
+
+                <h4>The Rebellion</h4>
+
+                <div id="make-game" class="start-button">
+                    Make Game
+                </div>
+
+                <div id="join-game" class="start-button">
+                    Join Game
+                </div>
+
+            </div>
+
+            <!-- Join Room Screen -->
+            <div id="join-room" class="hidden">
+
+                <h4>Join a Game</h4>
+
+                <!-- Room Code Input -->
+                <input id="room-code-entry" type="text" placeholder="Room Code" class="join-input">
+
+                <!-- Name Input -->
+                <input id="name-entry" type="text" placeholder="Name" class="join-input">
+
+                <!-- Photo Input -->
+                <div class="upload-container">
+                    <input id="picture-entry" type="file" capture="camera" accept="image/*" name="cameraInput" class="hidden">
+                    <label for="picture-entry" class="picture-entry-label">Upload Player Photo</label>
+                </div>
+
+                <div id="continue-join-button">
+                    Continue
+                </div>
+            </div>
+
+            <!-- Lobby -->
+            <div id="lobby-screen" class="hidden">
+
+                <h4>Lobby</h4>
+                <h3 id="room-code-label">Room Code: </h3>
+
+                <!-- Top row of players -->
+                <div id="top-player-joined">
+                    <div id="player-joined-one" class="player-select-top player-selected"></div>
+                    <div id="player-joined-two" class="player-select-top player-selected"></div>
+                    <div id="player-joined-three" class="player-select-top player-selected"></div>
+                </div>
+
+                <!-- Bottom row of players-->
+                <div id="bottom-player-joined">
+                    <div id="player-joined-four" class="player-select-bottom player-selected"></div>
+                    <div id="player-joined-five" class="player-select-bottom player-selected"></div>
+                </div>
+
+                <div id="start-game-button">
+                    Start Game
+                </div>
+            </div>
+
+            <!-- Token Reveal -->
+            <div id="reveal-screen" class="hidden">
+
+                <!-- Countdown -->
+                <div id="countdown" class="hidden">
+                    10
+                </div>
+
+                <!-- Alignment (id token-rebel for rebel) -->
+                <div class="alignment">
+                    Alignment:
+                </div>
+                <div id="token-spy"></div>
+
+                <!-- Spy info - hide label and container for rebel -->
+                <div class="teammate-label">
+                    Teammate:
+                </div>
+                <div class="teammate-container">
+                    <div id="teammate-icon"></div>
+                    <div id="teammate-name">Name</div>
+                </div>
+
+                <div id="got-it-button">
+                    Got it!
+                </div>
+
+            </div>
+
+            <!-- Top Bar -->
+                <!-- Add class spies-won or rebels-won for victories -->
+                <!-- Add class active-round for... active round  -->
+            <div class="hidden">
+                <div id="one" class="round rebels-won">
+                    <h4 id="one-text" class="numplayers">2</h4>
+                </div>
+                <div id="two" class="round spies-won">
+                    <h4 id="two-text" class="numplayers">3</h4>
+                </div>
+                <div id="three" class="round active-round">
+                    <h4 id="three-text" class="numplayers">3</h4>
+                </div>
+                <div id="four" class="round">
+                    <h4 id="four-text" class="numplayers">2</h4>
+                </div>
+                <div id="five" class="round">
+                    <h4 id="five-text" class="numplayers">3</h4>
+                </div>
+
+            </div>
+
+            <!-- !!!!!!!!!!!! GIANT ASS COMMENTS FOR PLAYER SELECTION !!!!!!!!!-->
+            <!-- Player Selection -->
+            <div id="player-select" class="hidden">
+                <div class="info-pane">
+
+                    <div class="player-queue">
+                        <!-- Profile Pictures -->
+                        <div id="player-queue-one" class="player-queue-icon"></div>
+                        <div id="player-queue-two" class="player-queue-icon"></div>
+                        <div id="player-queue-three" class="player-queue-icon"></div>
+                    </div>
+
+                    <div id="player-queue-instruction" class="player-instruction">
+                        <b>Name</b>, Select <b>#</b> Participants
+                    </div>
+
+                </div>
+                <div class="activity-pane">
+
+                    <!-- Top row of player selections -->
+                    <div id="top-player-selection">
+                        <div id="player-select-one" class="player-select-top"></div>
+                        <div id="player-select-two" class="player-select-top"></div>
+                        <div id="player-select-three" class="player-select-top"></div>
+                    </div>
+
+                    <!-- Bottom row of player selections -->
+                    <div id="bottom-player-selection">
+                        <div id="player-select-four" class="player-select-bottom"></div>
+                        <div id="player-select-five" class="player-select-bottom"></div>
+                    </div>
+
+                    <div id="confirm-player-select" class="hidden-mock">
+                        Confirm
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Approve/Deny -->
+            <div id="approve-deny-screen" class="hidden">
+
+                <!-- Players selected for this mission -->
+                <div class="info-pane">
+
+                    <!-- Display 2 selected players -->
+                    <div class="selected-players-two hidden">
+                        <div id="player-selected-one" class="player-selected-icon-two"></div>
+                        <div id="player-selected-two" class="player-selected-icon-two"></div>
+                    </div>
+
+                    <!-- Display 3 selected players -->
+                    <div class="selected-players-three">
+                        <div id="player-selected-one" class="player-selected-icon-three">
+                            <!-- Placeholder before profile pictures are added -->
+                            <span style="position:fixed">Grant</span>
+                        </div>
+                        <div id="player-selected-two" class="player-selected-icon-three"></div>
+                        <div id="player-selected-three" class="player-selected-icon-three"></div>
+                    </div>
+
+
+                    <div id="player-queue-instruction" class="player-instruction">
+                        <b style="color:#8FC93A">Approve</b> or <b style="color:#F7B538">Deny</b> the Mission?
+                    </div>
+
+                </div>
+
+                <!-- Approve / Deny panel -->
+                <div class="activity-pane" class="hidden">
+
+                    <!-- List of approved players -->
+                    <div id="approve-chart">
+                        <div class="approve-deny">Approved</div>
+                        <div id="approved-player-one" class="approved-denied-player"></div>
+                        <div id="approved-player-two" class="approved-denied-player"></div>
+                        <div id="approved-player-three" class="approved-denied-player"></div>
+                    </div>
+
+                    <!-- List denied players -->
+                    <div id="deny-chart">
+                        <div class="approve-deny">Denied</div>
+                        <div id="denied-player-one" class="approved-denied-player">Name 1</div>
+                        <div id="denied-player-two" class="approved-denied-player">Name 2</div>
+                        <div id="denied-player-three" class="approved-denied-player">Name 3</div>
+                    </div>
+
+                    <!-- Approve / Deny buttons -->
+                    <div class="button-container">
+                        <div id="approve-button">✓</div>
+                        <div id="deny-button">×</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Success/Fail Waiting -->
+            <div id="success-fail-pending-screen" class="hidden">
+                <div class="info-pane">
+
+                    <!-- 2 waiting cards -->
+                    <div class="played-cards-two hidden">
+                        <div id="played-card-one" class="played-card-icon-two">?</div>
+                        <div id="played-card-two" class="played-card-icon-two">?</div>
+                    </div>
+
+                    <!-- 3 waiting cards -->
+                    <div class="played-cards-three">
+                        <div id="played-card-one" class="played-card-icon-three">?</div>
+                        <div id="played-card-two" class="played-card-icon-three">?</div>
+                        <div id="played-card-three" class="played-card-icon-three">?</div>
+                    </div>
+
+                    <div id="played-cards-instruction" class="card-instruction">
+                        Awaiting Mission Results
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Select / Fail Choice -->
+            <div id="success-fail-selection-screen" class="hidden">
+                <div class="info-pane">
+
+                    <div id="play-cards-instruction" class="card-instruction">
+                        Select Mission Action
+                    </div>
+
+                    <!-- Success / Fail Selection (Hide fail for non-spies)-->
+                    <div class="success-fail-selection">
+                        <div id="success-button">Success</div>
+                        <div id="fail-button" class="">Failure</div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Victory Screen -->
+            <div id="victory-screen" class="hidden">
+                <div class="win-container">
+
+                    <!-- Rebels Win (hide for spy victory) -->
+                    <div id="rebels-win" class="">
+                        <div class="rebels-win-text">
+                            Rebels
+                        </div>
+                        <div class="win">
+                            Win!
+                        </div>
+                    </div>
+
+
+                    <!-- Spies Win (hide for rebel victory) -->
+                    <div id="spies-won" class="hidden">
+                        <div class="spies-win-text">
+                            Spies
+                        </div>
+                        <div class="win">
+                            Win!
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <!-- <script src="http://code.jquery.com/jquery-1.11.1.js"></script> -->
+        <!-- <script src="/socket.io/socket.io.js"></script> -->
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+        <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+        <script>
+        var username = "Rick";
+        var socket = io();
+        var team_assignment = "rebel";
+        var numSelections = 0;
+        var numApproves;
+        var numRejects;
+
+        //users = [];
+        spies = [];
+        var users = ["Rick", "Sahil", "Grant", "Idean", "Matias"]; //usernames
+        var user_included = [false, false, false, false, false];
+
+        $("#join-game").click(function(){
+            $("#start-screen").toggleClass("hidden");
+            $("#join-room").toggleClass("hidden");
+        });
+
+        // submitting username
+        $("#continue-join-button").click(function() {
+            username = $('#name-entry').val();
+            socket.emit('set username', username);
+            $("#join-room").toggleClass("hidden");
+            $("#lobby-screen").toggleClass("hidden");
+        });
+
+        $("#start-game-button").click(function() {
+            if(numSelections==3) {
+                socket.emit('lock selections');
+            }
+            //TODO: Clear lobby screen updates. Hide the lobby screen. Start the count down.
+            //Upon ending count down, display the mission select screen
+        });
+
+        $("#approve-button").click(function() {
+            socket.emit('mission approve', username);
+            console.log("Button is working nice lady");
+        });
+
+        $("#deny-button").click(function() {
+            socket.emit('mission reject', username);
+        });
+
+        //TODO: set the click function of the success button to emit a 'mission succeed' message
+
+        //TODO: set the click function of the fail button to emit a 'mission fail' message
+
+        socket.on('new user', function(updated_users) {
+            users = updated_users;
+            $("#top-player-joined").children().each(function(i){
+                if(i < users.length){
+                    $(this).text(users[i]);
+                }
+            });
+            $("#bottom-player-joined").children().each(function(i){
+                    
+            });
+        });
+
+        // only receive this if this person is a spy
+        socket.on('other spies', function(spies_arr) { //spies is an array of the spies
+            spies = spies_arr;
+            team_assignment = "spy";
+        });
+
+        // socket.on('team assignment', function(assignment) { //spies is an array of the spies
+        //     team_assignment = assignment;
+        // });
+
+        socket.on('start game', function(msg){
+            //TODO:display count down and then load the player
+        });
+
+        socket.on('missionleader', function(leader){
+            // if(leader.localeCompare(username) != 0) {
+                // append the player selected class to 
+                $('#player-select-one').click(function() {
+                    selectionUpdate(0);
+                });
+                $('#player-select-two').click(function() {
+                    selectionUpdate(1);
+                });
+                $('#player-select-three').click(function() {
+                    selectionUpdate(2);
+                });
+                $('#player-select-four').click(function() {
+                    selectionUpdate(3);
+                });
+                $('#player-select-five').click(function() {
+                    selectionUpdate(4);
+                });
+
+            // }
+        });
+
+
+        socket.on('select player', function(selected){
+            var index = users.indexOf(selected);
+            console.log("Index selected is " + index);
+            //$("div p:nth-child(2)").css("background-color", "yellow");
+            toggleSelection(index);
+        });
+
+        socket.on('deselect player', function(deselected){
+            var index = users.indexOf(deselected);
+            console.log("Index deselected is " + index);
+            toggleSelection(index)
+        });
+
+        socket.on('lock selections', function(){
+            $("#player-select").toggleClass("hidden");
+            $("#approve-deny-screen").toggleClass("hidden");
+
+            $("#top-player-selection").children().css("opacity", "0.25");
+            $("#bottom-player-selection").children().css("opacity", "0.25");
+
+            user_included = [false, false, false, false, false];
+            numSelections = 0;
+        });
+
+        socket.on('mission approve', function(username) {
+            if(numApproves == 0) {
+                $('#approved-player-one').text(username);
+            } else if (numApproves == 1) {
+                $('#approved-player-two').text(username);
+            } else { // if (numApproves == 2) 
+                $('#approved-player-three').text(username);
+            }
+            numApproves++;
+            //TODO: check if numApproves is majority and move on to the succeed/fail screen, enabling appropriate buttons.
+            //clear data associated with this screen
+        });
+
+        socket.on('mission reject', function(username){
+            //TODO: append the received username to the list of rejects
+            //increment num rejects. cheeck if numRejects is majority and move to next screen.
+            //clear data as appropriate
+        });
+
+        socket.on('mission succeeded', function(){
+            //TODO: Display message for success
+        });
+
+        socket.on('mission failed', function(){
+            //TODO: Display message for failure
+        });
+
+        socket.on('game end', function(winners){
+            //TODO: check winners variable to display who won
+        });
+
+        socket.on('spy reveal', function(spies){
+            //TODO: acess spies to display who the spies were
+        });
+
+        function selectionUpdate(index){
+            if(user_included[index]) {
+                numSelections -= 1;
+                user_included[index] = !user_included[index];
+                // console.log(Included is now + user_included[index]);
+                socket.emit('deselect player', users[index]);
+            } else if (numSelections<3) {
+                numSelections += 1;
+                user_included[index] = !user_included[index];
+                socket.emit('select player', users[index]);
+            } 
+            if(numSelections==3) {
+                $("#confirm-player-select").css("opacity", "1");
+            }
+            if(numSelections<3) { 
+                $("#confirm-player-select").css("opacity", "0.25");
+            }
+        }
+
+        function toggleSelection(index) {
+            if (index >=0 && index <3) {
+                $("#top-player-selection div:nth-of-type(" + (index + 1) + ")").toggleClass("player-selected");
+            } else { // 3 or 4 
+                $("#bottom-player-selection div:nth-of-type(" + (index - 2) + ")").toggleClass("player-selected");
+            }
+        }
+
+        </script>
+
+    </body>
 </html>
