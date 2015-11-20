@@ -39,7 +39,7 @@ io.on('connection', function(socket){
     console.log('user added: ' + name);
     clients[name] = socket;
     usernames.push(name);
-    io.emit('new user', name);
+    io.emit('new user', usernames);
 
     if (tryStartingGame()) {
       assignTeams();
